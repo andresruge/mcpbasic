@@ -1,4 +1,4 @@
-# Building a sample mcp
+# Building a basic sample mcp
 
 ## Steps
 
@@ -14,6 +14,26 @@ cd McpBasic
 dotnet build
 ```
 
-- Add custom tools and configuration (WeatherTools)
+- Add custom tools and configuration (see WeatherTools)
 
 - Configure GitHub Copilot to use your MCP server by creating .vscode/mcp.json
+
+```json
+{
+	"servers": {
+		"McpBasic": {
+			"type": "stdio",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"C:\\Files\\Study\\agents\\mcpbasic\\McpBasic\\McpBasic.csproj"
+			],
+      		"env": {
+        		"WEATHER_CHOICES": "sunny,humid,freezing,perfect"
+      		}
+		}
+	},
+	"inputs": []
+}
+```
