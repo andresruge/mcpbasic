@@ -1,0 +1,17 @@
+{
+	"servers": {
+		"McpBasic": {
+			"type": "stdio",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"C:\\Files\\Study\\agents\\mcpbasic\\McpBasic\\McpBasic.csproj"
+			],
+      		"env": {
+        		"WEATHER_CHOICES": "sunny,humid,freezing,perfect"
+      		}
+		}
+	},
+	"inputs": []
+}
