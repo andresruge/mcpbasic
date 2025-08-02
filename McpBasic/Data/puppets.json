@@ -1,0 +1,8 @@
+[
+  { "Id": 1, "Name": "Bobo", "Personality": "Funny" },
+  { "Id": 2, "Name": "Grumpy", "Personality": "Angry" },
+  { "Id": 3, "Name": "Droopy", "Personality": "Sad" },
+  { "Id": 4, "Name": "Giggles", "Personality": "Funny" },
+  { "Id": 5, "Name": "Stormy", "Personality": "Angry" },
+  { "Id": 6, "Name": "Moody", "Personality": "Sad" }
+]

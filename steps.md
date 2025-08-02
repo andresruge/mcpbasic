@@ -3,15 +3,23 @@
 ## Steps
 
 - Install the mcp template
-```cmd
+
+```bash
 dotnet new install Microsoft.Extensions.AI.Templates
 ```
 
 - Create mcp project
-```cmd
+
+```bash
 dotnet new mcpserver -n McpBasic
 cd McpBasic
 dotnet build
+```
+
+- If .gitignore is not present, create it with the following content:
+
+```bash
+dotnet new gitignore
 ```
 
 - Add custom tools and configuration (see WeatherTools)
@@ -20,20 +28,20 @@ dotnet build
 
 ```json
 {
-	"servers": {
-		"McpBasic": {
-			"type": "stdio",
-			"command": "dotnet",
-			"args": [
-				"run",
-				"--project",
-				"C:\\Files\\Study\\agents\\mcpbasic\\McpBasic\\McpBasic.csproj"
-			],
-      		"env": {
-        		"WEATHER_CHOICES": "sunny,humid,freezing,perfect"
-      		}
-		}
-	},
-	"inputs": []
+  "servers": {
+    "McpBasic": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "C:\\Files\\Study\\agents\\mcpbasic\\McpBasic\\McpBasic.csproj"
+      ],
+      "env": {
+        "WEATHER_CHOICES": "sunny,humid,freezing,perfect"
+      }
+    }
+  },
+  "inputs": []
 }
 ```
