@@ -1,3 +1,7 @@
+using McpBasic.Models;
+
+namespace McpBasic.Helpers;
+
 /// <summary>
 /// Helper class for managing and selecting Puppet objects.
 /// </summary>
@@ -29,7 +33,7 @@ public class PuppetHelper
     /// <param name="puppets">Collection of Puppet objects to manage.</param>
     public PuppetHelper(IEnumerable<Puppet> puppets)
     {
-        _puppets = puppets.ToList();
+        _puppets = [.. puppets];
         _randomSelectionCount = [];
         _random = new Random();
     }
@@ -38,7 +42,7 @@ public class PuppetHelper
     /// Returns the complete list of managed Puppets.
     /// </summary>
     /// <returns>List of all Puppet objects.</returns>
-    public List<Puppet> GetPuppets()
+    public static List<Puppet> GetPuppets()
     {
         return _puppets;
     }
@@ -48,7 +52,7 @@ public class PuppetHelper
     /// </summary>
     /// <param name="id">The ID of the Puppet to retrieve.</param>
     /// <returns>The Puppet with the specified ID, or null if not found.</returns>
-    public Puppet? GetPuppetById(int id)
+    public static Puppet? GetPuppetById(int id)
     {
         return _puppets.FirstOrDefault(p => p.Id == id);
     }
@@ -57,7 +61,7 @@ public class PuppetHelper
     /// Selects a random Puppet from the collection and tracks the selection.
     /// </summary>
     /// <returns>A randomly selected Puppet, or null if the collection is empty.</returns>
-    public Puppet? GetRandomPuppet()
+    public static Puppet? GetRandomPuppet()
     {
         if (_puppets.Count == 0) return null;
         int index = _random.Next(_puppets.Count);
@@ -73,7 +77,7 @@ public class PuppetHelper
     /// Returns the Puppet that has been most frequently selected by the random selection process.
     /// </summary>
     /// <returns>The most frequently randomly selected Puppet, or null if no selections have been made.</returns>
-    public Puppet? GetMostSelectedRandomPuppet()
+    public static Puppet? GetMostSelectedRandomPuppet()
     {
         if (_randomSelectionCount.Count == 0) return null;
         int maxId = _randomSelectionCount.OrderByDescending(x => x.Value).First().Key;

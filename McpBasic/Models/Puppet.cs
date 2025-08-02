@@ -1,3 +1,5 @@
+namespace McpBasic.Models;
+
 /// <summary>
 /// Represents a puppet entity with an identifier, name, and associated personality type.
 /// </summary>

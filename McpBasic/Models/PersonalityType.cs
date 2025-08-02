@@ -1,3 +1,5 @@
+namespace McpBasic.Models;
+
 /// <summary>
 /// Specifies the possible personality types for an entity.
 /// </summary>
