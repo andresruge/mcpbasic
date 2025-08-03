@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using McpBasic.Helpers;
-using McpBasic.Models;
 using ModelContextProtocol.Server;
 
 namespace McpBasic.Tools;
@@ -11,19 +10,32 @@ namespace McpBasic.Tools;
 [McpServerToolType]
 public class PuppetTools
 {
+
+    private readonly PuppetHelper _puppetHelper;
+
+    public PuppetTools(PuppetHelper puppetHelper)
+    {
+        _puppetHelper = puppetHelper;
+    }
+
     /// <summary>
     /// Gets a collection of all registered Puppet objects currently managed by the PuppetHelper.
     /// </summary>
-    /// <returns>A List containing all Puppet objects that are currently registered in the PuppetHelper system.</returns>
+    /// <returns>A json string containing all Puppet objects that are currently registered in the PuppetHelper system.</returns>
     /// <remarks>
     /// This method provides direct access to the puppet collection maintained by the PuppetHelper.
     /// The returned list represents the current state of all managed puppets.
     /// </remarks>
-    [McpServerResource]
+    [McpServerResource(Name = "GetAllPuppets", UriTemplate = "puppets://all")]
     [Description("Collection of Puppet objects managed by the PuppetHelper.")]
-    public static List<Puppet> GetAllPuppets()
+    public string GetAllPuppets()
     {
-        return PuppetHelper.GetPuppets();
+        var puppets = _puppetHelper.GetPuppets();
+        var options = new System.Text.Json.JsonSerializerOptions
+        {
+            Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
+        };
+        return System.Text.Json.JsonSerializer.Serialize(puppets, options);
     }
 
     /// <summary>
@@ -33,9 +45,14 @@ public class PuppetTools
     /// <returns>The Puppet with the specified ID, or null if not found.</returns>
     [McpServerTool]
     [Description("Retrieves a specific Puppet by its ID.")]
-    public static Puppet? GetPuppetById([Description("The ID of the Puppet to retrieve.")] int id)
+    public string GetPuppetById([Description("The ID of the Puppet to retrieve.")] int id)
     {
-        return PuppetHelper.GetPuppetById(id);
+        var puppet = _puppetHelper.GetPuppetById(id);
+        var options = new System.Text.Json.JsonSerializerOptions
+        {
+            Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
+        };
+        return System.Text.Json.JsonSerializer.Serialize(puppet, options);
     }
 
     /// <summary>
@@ -44,9 +61,14 @@ public class PuppetTools
     /// <returns>A randomly selected Puppet, or null if the collection is empty.</returns>
     [McpServerTool]
     [Description("Selects a random Puppet from the collection.")]
-    public static Puppet? GetRandomPuppet()
+    public string GetRandomPuppet()
     {
-        return PuppetHelper.GetRandomPuppet();
+        var puppet = _puppetHelper.GetRandomPuppet();
+        var options = new System.Text.Json.JsonSerializerOptions
+        {
+            Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
+        };
+        return System.Text.Json.JsonSerializer.Serialize(puppet, options);
     }
 
     /// <summary>
@@ -55,8 +77,13 @@ public class PuppetTools
     /// <returns>The most frequently randomly selected Puppet.</returns>
     [McpServerTool]
     [Description("Returns the Puppet that has been most frequently selected.")]
-    public static Puppet? GetMostSelectedRandomPuppet()
+    public string GetMostSelectedRandomPuppet()
     {
-        return PuppetHelper.GetMostSelectedRandomPuppet();
+        var puppet = _puppetHelper.GetMostSelectedRandomPuppet();
+        var options = new System.Text.Json.JsonSerializerOptions
+        {
+            Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
+        };
+        return System.Text.Json.JsonSerializer.Serialize(puppet, options);
     }
 }

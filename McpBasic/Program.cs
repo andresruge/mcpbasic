@@ -1,3 +1,4 @@
+using McpBasic.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,5 +14,7 @@ builder.Services
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithResourcesFromAssembly();
+
+builder.Services.AddSingleton<PuppetHelper>();
 
 await builder.Build().RunAsync();

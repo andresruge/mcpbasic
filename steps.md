@@ -45,3 +45,13 @@ dotnet new gitignore
   "inputs": []
 }
 ```
+
+- If Mcp Inspector has not been installed, then run this command
+```bash
+npm install -g @modelcontextprotocol/inspector
+```
+
+- Then, test ths Mcp by running Inspector
+```bash
+npx @modelcontextprotocol/inspector dotnet run
+```

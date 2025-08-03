@@ -30,7 +30,7 @@ public class EchoTools
     [Description("Echoes in reverse the input string back to the caller.")]
     public static string ReverseEcho([Description("The reverse string to echo back")]string input)
     {
-        return input.Reverse().ToString() ?? string.Empty;
+        return input == null ? string.Empty : new string([.. input.Reverse()]);
     }
 
     /// <summary>

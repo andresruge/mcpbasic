@@ -14,35 +14,62 @@ public class PuppetHelper
     /// <summary>
     /// Static collection of Puppet objects.
     /// </summary>
-    private static List<Puppet> _puppets = [];
+    private List<Puppet> _puppets;
 
     /// <summary>
     /// Dictionary tracking the number of times each Puppet has been randomly selected.
     /// Key is the Puppet Id, Value is the selection count.
     /// </summary>
-    private static Dictionary<int, int> _randomSelectionCount = [];
+    private Dictionary<int, int> _randomSelectionCount;
 
     /// <summary>
     /// Random number generator for puppet selection.
     /// </summary>
-    private static Random _random = new();
+    private Random _random;
 
     /// <summary>
     /// Initializes a new instance of the PuppetHelper class.
     /// </summary>
-    /// <param name="puppets">Collection of Puppet objects to manage.</param>
-    public PuppetHelper(IEnumerable<Puppet> puppets)
+    public PuppetHelper()
     {
-        _puppets = [.. puppets];
+        // Always load from puppets.json, ignore provided puppets
+        var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "puppets.json");
+        if (File.Exists(jsonPath))
+        {
+            var json = File.ReadAllText(jsonPath);
+            var loadedPuppets = System.Text.Json.JsonSerializer.Deserialize<List<Puppet>>(json);
+            _puppets = loadedPuppets ?? [];
+        }
+        else
+        {
+            _puppets = LoadPuppetData();
+        }
         _randomSelectionCount = [];
         _random = new Random();
+    }
+
+    /// <summary>
+    /// Loads the puppet data directly (hardcoded, matches puppets.json).
+    /// </summary>
+    /// <returns>List of Puppet objects.</returns>
+    private List<Puppet> LoadPuppetData()
+    {
+        return
+        [
+            new Puppet(1, "Bobo", PersonalityType.Funny),
+            new Puppet(2, "Grumpy", PersonalityType.Angry),
+            new Puppet(3, "Droopy", PersonalityType.Sad),
+            new Puppet(4, "Giggles", PersonalityType.Funny),
+            new Puppet(5, "Stormy", PersonalityType.Angry),
+            new Puppet(6, "Moody", PersonalityType.Sad)
+        ];
     }
 
     /// <summary>
     /// Returns the complete list of managed Puppets.
     /// </summary>
     /// <returns>List of all Puppet objects.</returns>
-    public static List<Puppet> GetPuppets()
+    public List<Puppet> GetPuppets()
     {
         return _puppets;
     }
@@ -52,7 +79,7 @@ public class PuppetHelper
     /// </summary>
     /// <param name="id">The ID of the Puppet to retrieve.</param>
     /// <returns>The Puppet with the specified ID, or null if not found.</returns>
-    public static Puppet? GetPuppetById(int id)
+    public Puppet? GetPuppetById(int id)
     {
         return _puppets.FirstOrDefault(p => p.Id == id);
     }
@@ -61,7 +88,7 @@ public class PuppetHelper
     /// Selects a random Puppet from the collection and tracks the selection.
     /// </summary>
     /// <returns>A randomly selected Puppet, or null if the collection is empty.</returns>
-    public static Puppet? GetRandomPuppet()
+    public Puppet? GetRandomPuppet()
     {
         if (_puppets.Count == 0) return null;
         int index = _random.Next(_puppets.Count);
@@ -77,7 +104,7 @@ public class PuppetHelper
     /// Returns the Puppet that has been most frequently selected by the random selection process.
     /// </summary>
     /// <returns>The most frequently randomly selected Puppet, or null if no selections have been made.</returns>
-    public static Puppet? GetMostSelectedRandomPuppet()
+    public Puppet? GetMostSelectedRandomPuppet()
     {
         if (_randomSelectionCount.Count == 0) return null;
         int maxId = _randomSelectionCount.OrderByDescending(x => x.Value).First().Key;
